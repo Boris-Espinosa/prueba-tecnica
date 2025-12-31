@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes";
 import notesRoutes from "./modules/notes/notes.routes";
+import { errorHandler } from "./shared/middlewares";
 
 const app = express();
 
@@ -14,5 +15,7 @@ app.use("/notes", notesRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "API Notes - TypeORM", status: "running" });
 });
+
+app.use(errorHandler);
 
 export default app;

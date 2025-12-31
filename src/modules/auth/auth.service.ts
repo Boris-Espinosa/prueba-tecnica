@@ -31,7 +31,15 @@ export class AuthService {
   }
 
   async login({ email, password }: LoginInput) {
-    const user = await userRepository.findOne({ where: { email } });
+    const user = await userRepository.findOne({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+      },
+    });
+
     if (!user) throw new AppError("Credenciales inválidas", 401);
 
     const isPasswordValid = await bcrypt.compare(password, user.password);

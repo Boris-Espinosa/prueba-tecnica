@@ -16,7 +16,7 @@ export class User {
   @Column({ unique: true, type: "varchar" })
   email!: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", select: false })
   password!: string;
 
   @CreateDateColumn({ name: "created_at" })

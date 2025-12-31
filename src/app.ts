@@ -3,11 +3,14 @@ import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes";
 import notesRoutes from "./modules/notes/notes.routes";
 import { errorHandler } from "./shared/middlewares";
+import { normalLimiter } from "./shared/middlewares/rate.Limiter.middleware";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+app.use(normalLimiter);
 
 app.use("/auth", authRoutes);
 app.use("/notes", notesRoutes);

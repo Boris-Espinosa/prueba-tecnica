@@ -1,11 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
 import authRoutes from './modules/auth/auth.routes';
 import notesRoutes from './modules/notes/notes.routes';
 import { errorHandler, requestIdMiddleware } from './shared/middlewares';
 import { normalLimiter } from './shared/middlewares/rate.Limiter.middleware';
 import { logger } from './shared/utils/logger';
+import { swaggerSpec } from './shared/config/swagger';
 
 const app = express();
 
@@ -24,13 +26,42 @@ app.use(
   })
 );
 
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'Notas API - Documentación',
+  })
+);
+
 app.use(normalLimiter);
 
 app.use('/auth', authRoutes);
 app.use('/notes', notesRoutes);
 
 app.get('/', (req, res) => {
-  res.json({ message: 'API Notes - TypeORM', status: 'running' });
+  res.json({
+    message: 'API Notas Colaborativas',
+    status: 'running',
+    version: '1.0.0',
+    documentation: '/api-docs',
+    endpoints: {
+      auth: {
+        register: 'POST /auth/register',
+        login: 'POST /auth/login',
+        getUser: 'GET /auth/:id',
+      },
+      notes: {
+        getAll: 'GET /notes',
+        getOne: 'GET /notes/:id',
+        create: 'POST /notes',
+        update: 'PUT /notes/:id',
+        delete: 'DELETE /notes/:id',
+        share: 'POST /notes/:id/share',
+      },
+    },
+  });
 });
 
 app.use(errorHandler);

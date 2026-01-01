@@ -2,6 +2,7 @@ import { Request } from 'express';
 import { createRequestLogger } from '../shared/utils/logger';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       id?: string;

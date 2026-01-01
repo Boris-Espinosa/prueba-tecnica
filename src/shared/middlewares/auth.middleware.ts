@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from 'express';
-import { AppError } from '../../common/AppError.class';
-import { AuthRequest } from '../../common/interfaces';
-import { verifyToken } from '../utils/jwt.util';
+import { AppError } from '../../common/AppError.class.js';
+import { AuthRequest } from '../../common/interfaces.js';
+import { verifyToken } from '../utils/jwt.util.js';
 
 export const authMiddleware = async (
   req: Request,

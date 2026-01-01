@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { notesService } from '../notes/notes.service';
-import { AuthRequest } from '../../common/interfaces';
-import { logger } from '../../shared/utils/logger';
+import { notesService } from '../notes/notes.service.js';
+import { AuthRequest } from '../../common/interfaces.js';
+import { logger } from '../../shared/utils/logger.js';
 
 export const createNote = async (
   req: Request,

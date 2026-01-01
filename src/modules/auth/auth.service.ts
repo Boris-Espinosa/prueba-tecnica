@@ -3,7 +3,7 @@ import { User } from '../../entities/index.js';
 import bcrypt from 'bcryptjs';
 import { AppError } from '../../common/AppError.class.js';
 import { generateToken } from '../../shared/utils/jwt.util.js';
-import { RegisterInput, LoginInput } from '../../schemas/auth.schema';
+import { RegisterInput, LoginInput } from '../../schemas/auth.schema.js';
 
 const userRepository = AppDataSource.getRepository(User);
 

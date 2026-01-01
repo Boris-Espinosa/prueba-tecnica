@@ -1,2 +1,2 @@
-export * from './auth.schema';
-export * from './notes.schema';
+export * from './auth.schema.js';
+export * from './notes.schema.js';

@@ -1,3 +1,3 @@
-export { User } from './User';
-export { Note } from './Note';
-export { NoteCollaborator } from './NoteCollaborator';
+export { User } from './User.js';
+export { Note } from './Note.js';
+export { NoteCollaborator } from './NoteCollaborator.js';

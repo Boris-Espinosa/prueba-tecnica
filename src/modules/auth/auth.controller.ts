@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { logger } from '../../shared/utils/logger';
-import { authService } from './auth.service';
+import { logger } from '../../shared/utils/logger.js';
+import { authService } from './auth.service.js';
 
 export const register = async (
   req: Request,

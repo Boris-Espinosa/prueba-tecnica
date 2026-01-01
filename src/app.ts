@@ -2,12 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
-import authRoutes from './modules/auth/auth.routes';
-import notesRoutes from './modules/notes/notes.routes';
-import { errorHandler, requestIdMiddleware } from './shared/middlewares';
-import { normalLimiter } from './shared/middlewares/rate.Limiter.middleware';
-import { logger } from './shared/utils/logger';
-import { swaggerSpec } from './shared/config/swagger';
+import authRoutes from './modules/auth/auth.routes.js';
+import notesRoutes from './modules/notes/notes.routes.js';
+import { errorHandler, requestIdMiddleware } from './shared/middlewares/index.js';
+import { normalLimiter } from './shared/middlewares/rate.Limiter.middleware.js';
+import { logger } from './shared/utils/logger.js';
+import { swaggerSpec } from './shared/config/swagger.js';
 
 const app = express();
 

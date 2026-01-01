@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import dotenv from 'dotenv';
-import app from './src/app';
-import { AppDataSource } from './src/shared/config/database';
-import { validateEnv } from './src/shared/config/env.validation';
+import app from './src/app.js';
+import { AppDataSource } from './src/shared/config/database.js';
+import { validateEnv } from './src/shared/config/env.validation.js';
 
 dotenv.config();
 validateEnv();

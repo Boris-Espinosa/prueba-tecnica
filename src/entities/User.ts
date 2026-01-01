@@ -5,8 +5,6 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Note } from './Note';
-import { NoteCollaborator } from './NoteCollaborator';
 
 @Entity('users')
 export class User {
@@ -22,9 +20,9 @@ export class User {
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 
-  @OneToMany(() => Note, (note) => note.owner)
-  notes!: Note[];
+  @OneToMany('Note', 'owner')
+  notes!: any[];
 
-  @OneToMany(() => NoteCollaborator, (collaborator) => collaborator.user)
-  collaborations!: NoteCollaborator[];
+  @OneToMany('NoteCollaborator', 'user')
+  collaborations!: any[];
 }

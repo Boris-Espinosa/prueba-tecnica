@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { User, Note, NoteCollaborator } from '../../entities';
+import { User, Note, NoteCollaborator } from '../../entities/index.js';
 import dotenv from 'dotenv';
 
 dotenv.config();

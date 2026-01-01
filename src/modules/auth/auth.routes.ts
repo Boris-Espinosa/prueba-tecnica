@@ -1,12 +1,12 @@
 import express from 'express';
-import { register, login, findById } from '../auth/auth.controller';
-import { validate } from '../../shared/middlewares/validate.middleware';
+import { register, login, findById } from '../auth/auth.controller.js';
+import { validate } from '../../shared/middlewares/validate.middleware.js';
 import {
   registerSchema,
   loginSchema,
   findByIdSchema,
-} from '../../schemas/auth.schema';
-import { authLimiter } from '../../shared/middlewares/rate.Limiter.middleware';
+} from '../../schemas/auth.schema.js';
+import { authLimiter } from '../../shared/middlewares/rate.Limiter.middleware.js';
 
 const router = express.Router();
 

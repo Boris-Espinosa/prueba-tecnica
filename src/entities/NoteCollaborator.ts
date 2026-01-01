@@ -7,8 +7,6 @@ import {
   JoinColumn,
   Unique,
 } from 'typeorm';
-import { User } from './User';
-import { Note } from './Note';
 
 @Entity('note_collaborators')
 @Unique(['userId', 'noteId'])
@@ -22,13 +20,13 @@ export class NoteCollaborator {
   @Column({ name: 'note_id', type: 'int' })
   noteId!: number;
 
-  @ManyToOne(() => User, (user) => user.collaborations, { onDelete: 'CASCADE' })
+  @ManyToOne('User', 'collaborations', { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user!: User;
+  user!: any;
 
-  @ManyToOne(() => Note, (note) => note.collaborators, { onDelete: 'CASCADE' })
+  @ManyToOne('Note', 'collaborators', { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'note_id' })
-  note!: Note;
+  note!: any;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;

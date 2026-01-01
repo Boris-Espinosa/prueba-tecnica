@@ -6,17 +6,17 @@ import {
   updateNote,
   deleteNote,
   shareNote,
-} from './/notes.controller';
-import { validate } from '../../shared/middlewares/validate.middleware';
+} from './notes.controller.js';
+import { validate } from '../../shared/middlewares/validate.middleware.js';
 import {
   createNoteSchema,
   updateNoteSchema,
   getNoteSchema,
   deleteNoteSchema,
   shareNoteSchema,
-} from '../../schemas/notes.schema';
-import { authMiddleware } from '../../shared/middlewares/auth.middleware';
-import { createLimiter } from '../../shared/middlewares/rate.Limiter.middleware';
+} from '../../schemas/notes.schema.js';
+import { authMiddleware } from '../../shared/middlewares/auth.middleware.js';
+import { createLimiter } from '../../shared/middlewares/rate.Limiter.middleware.js';
 
 const router = express.Router();
 

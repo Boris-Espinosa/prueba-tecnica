@@ -8,8 +8,6 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { User } from './User';
-import { NoteCollaborator } from './NoteCollaborator';
 
 @Entity('notes')
 export class Note {
@@ -25,9 +23,9 @@ export class Note {
   @Column({ name: 'owner_id', type: 'int' })
   ownerId!: number;
 
-  @ManyToOne(() => User, (user) => user.notes, { onDelete: 'CASCADE' })
+  @ManyToOne('User', 'notes', { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'owner_id' })
-  owner!: User;
+  owner!: any;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
@@ -35,6 +33,6 @@ export class Note {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
 
-  @OneToMany(() => NoteCollaborator, (collaborator) => collaborator.note)
-  collaborators!: NoteCollaborator[];
+  @OneToMany('NoteCollaborator', 'note')
+  collaborators!: any[];
 }

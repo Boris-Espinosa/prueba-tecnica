@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { AppError } from "../../common/AppError.class";
-import { authService } from "./auth.service";
+import { NextFunction, Request, Response } from 'express';
+
+import { authService } from './auth.service';
 
 export const register = async (
   req: Request,

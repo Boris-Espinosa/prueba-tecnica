@@ -1,30 +1,30 @@
-import rateLimit from "express-rate-limit";
+import rateLimit from 'express-rate-limit';
 
 export const authLimiter = rateLimit({
   windowMs: 5 * 60 * 1000,
   max: 10,
-  message: "Demasiados intentos de login, intenta de nuevo en 5 minutos",
+  message: 'Demasiados intentos de login, intenta de nuevo en 5 minutos',
   skipSuccessfulRequests: true,
 });
 
 export const createLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 10,
-  message: "Demasiadas creaciones, intenta de nuevo en 1 minuto",
+  message: 'Demasiadas creaciones, intenta de nuevo en 1 minuto',
 });
 
 export const normalLimiter = [
   rateLimit({
     windowMs: 1000,
     max: 2,
-    message: "Demasiadas peticiones desde esta IP, intenta de nuevo más tarde",
+    message: 'Demasiadas peticiones desde esta IP, intenta de nuevo más tarde',
     standardHeaders: true,
     legacyHeaders: false,
   }),
   rateLimit({
     windowMs: 60 * 1000,
     max: 30,
-    message: "Demasiadas peticiones desde esta IP, intenta de nuevo más tarde",
+    message: 'Demasiadas peticiones desde esta IP, intenta de nuevo más tarde',
     standardHeaders: true,
     legacyHeaders: false,
   }),

@@ -4,22 +4,22 @@ import {
   Column,
   CreateDateColumn,
   OneToMany,
-} from "typeorm";
-import { Note } from "./Note";
-import { NoteCollaborator } from "./NoteCollaborator";
+} from 'typeorm';
+import { Note } from './Note';
+import { NoteCollaborator } from './NoteCollaborator';
 
-@Entity("users")
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ unique: true, type: "varchar" })
+  @Column({ unique: true, type: 'varchar' })
   email!: string;
 
-  @Column({ type: "text", select: false })
+  @Column({ type: 'text', select: false })
   password!: string;
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 
   @OneToMany(() => Note, (note) => note.owner)

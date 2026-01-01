@@ -1,7 +1,7 @@
-import jwt, { SignOptions } from "jsonwebtoken";
-import { promisify } from "util";
-import { AppError } from "../../common/AppError.class";
-import { JWTPayload } from "../../common/interfaces";
+import jwt, { SignOptions } from 'jsonwebtoken';
+import { promisify } from 'util';
+import { AppError } from '../../common/AppError.class';
+import { JWTPayload } from '../../common/interfaces';
 
 const verifyAsync = promisify<string, string, JWTPayload>(
   jwt.verify as (
@@ -22,7 +22,7 @@ const signAsync = promisify<string | object, string, SignOptions, string>(
 
 export const verifyToken = async (token: string): Promise<JWTPayload> => {
   if (!process.env.JWT_SECRET) {
-    throw new AppError("JWT_SECRET is missing", 500);
+    throw new AppError('JWT_SECRET is missing', 500);
   }
 
   return await verifyAsync(token, process.env.JWT_SECRET);
@@ -33,7 +33,7 @@ export const generateToken = async (
   expiresIn: number = 86400000 //1d
 ): Promise<string> => {
   if (!process.env.JWT_SECRET) {
-    throw new AppError("JWT_SECRET is missing", 500);
+    throw new AppError('JWT_SECRET is missing', 500);
   }
 
   const options: SignOptions = { expiresIn };

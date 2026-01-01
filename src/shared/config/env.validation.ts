@@ -5,6 +5,7 @@ export const requiredEnvVars = [
   'DB_PASSWORD',
   'DB_NAME',
   'JWT_SECRET',
+  'JWT_EXPIRES_IN',
 ] as const;
 
 export const validateEnv = (): void => {

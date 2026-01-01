@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: notes-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: notes_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - notes-network-dev
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: notes-api-dev
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: notes_db
+      JWT_SECRET: ${JWT_SECRET:-dev_secret_key_only_for_development}
+      JWT_EXPIRES_IN: "86400000"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./server.ts:/app/server.ts
+      - ./tsconfig.json:/app/tsconfig.json
+      - /app/node_modules
+    networks:
+      - notes-network-dev
+
+volumes:
+  postgres_data_dev:
+    driver: local
+
+networks:
+  notes-network-dev:
+    driver: bridge

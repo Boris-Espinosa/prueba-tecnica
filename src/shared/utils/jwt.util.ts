@@ -30,7 +30,7 @@ export const verifyToken = async (token: string): Promise<JWTPayload> => {
 
 export const generateToken = async (
   payload: { id: number; email: string },
-  expiresIn: number = 86400000 //1d
+  expiresIn: number = parseInt(process.env.JWT_EXPIRES_IN ?? '86400000')
 ): Promise<string> => {
   if (!process.env.JWT_SECRET) {
     throw new AppError('JWT_SECRET is missing', 500);

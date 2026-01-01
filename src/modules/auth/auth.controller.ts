@@ -39,6 +39,7 @@ export const findById = async (
 ) => {
   try {
     const id = parseInt(req.params.id);
+
     const response = await authService.findById(id);
     return res.status(200).json(response);
   } catch (err: any) {

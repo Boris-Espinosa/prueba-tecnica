@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx --watch server.ts",
+    "dev:docker": "nodemon --exec tsx server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "lint": "eslint .",
@@ -62,6 +63,7 @@
     "globals": "^16.5.0",
     "jiti": "^2.6.1",
     "prettier": "^3.7.4",
+    "nodemon": "^3.1.7",
     "supertest": "^7.1.4",
     "tsx": "^4.21.0",
     "typescript-eslint": "^8.51.0",

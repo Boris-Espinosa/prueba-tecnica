@@ -39,6 +39,8 @@ services:
       DB_NAME: notes_db
       JWT_SECRET: ${JWT_SECRET:-dev_secret_key_only_for_development}
       JWT_EXPIRES_IN: "86400000"
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: 1000
     ports:
       - "3000:3000"
     volumes:

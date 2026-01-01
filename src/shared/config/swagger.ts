@@ -46,11 +46,6 @@ const swaggerOptions: swaggerJsdoc.Options = {
               format: 'date-time',
               description: 'Fecha de creación',
             },
-            updatedAt: {
-              type: 'string',
-              format: 'date-time',
-              description: 'Fecha de última actualización',
-            },
           },
         },
         Note: {

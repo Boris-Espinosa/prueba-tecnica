@@ -1,4 +1,14 @@
 import { Request } from 'express';
+import { createRequestLogger } from '../shared/utils/logger';
+
+declare global {
+  namespace Express {
+    interface Request {
+      id?: string;
+      log?: ReturnType<typeof createRequestLogger>;
+    }
+  }
+}
 
 export interface AuthRequest extends Request {
   clientUser: ClientUser;

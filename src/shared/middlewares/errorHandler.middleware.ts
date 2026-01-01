@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../../common/AppError.class';
+import { logger } from '../utils/logger';
 
 export const errorHandler = (
   err: any,
@@ -7,6 +8,16 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
+  const requestLogger = req.log ?? logger;
+  requestLogger.error({
+    message: err.message,
+    stack: err.stack,
+    requestId: req.id,
+    method: req.method,
+    path: req.path,
+    errorType: err.name,
+  });
+
   if (err instanceof AppError) {
     return res.status(err.status).json({
       success: false,

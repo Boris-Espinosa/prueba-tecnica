@@ -10,17 +10,24 @@ API REST desarrollada en Node.js con Express para gestionar un sistema de notas 
 
 ## Tabla de Contenidos
 
-- [Características](#-características)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-- [Decisiones Técnicas](#-decisiones-técnicas)
-- [Requisitos Previos](#-requisitos-previos)
-- [Instalación y Configuración](#-instalación-y-configuración)
-- [Scripts NPM Disponibles](#-scripts-npm-disponibles)
-- [Ejecución](#-ejecución)
-- [Uso de la API](#-uso-de-la-api)
-- [Testing](#-testing)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Documentación API](#-documentación-api)
+- [Características](#características)
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Decisiones Técnicas](#decisiones-técnicas)
+- [Instalación y Configuración](#instalación-y-configuración)
+- [Scripts NPM Disponibles](#scripts-npm-disponibles)
+- [Comandos Útiles](#comandos-útiles)
+- [Uso de la API](#uso-de-la-api)
+- [Testing](#testing)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Documentación API](#documentación-api)
+- [Seguridad Implementada](#seguridad-implementada)
+- [Manejo de Errores](#manejo-de-errores)
+- [Variables de Entorno](#variables-de-entorno)
+- [Despliegue](#despliegue)
+- [Contribución](#contribución)
+- [Licencia](#licencia)
+- [Autor](#autor)
+- [Agradecimientos](#agradecimientos)
 
 ## Características
 
@@ -172,20 +179,84 @@ Se implementó una **arquitectura modular** organizada por dominios (auth, notes
 
 ## Instalación y Configuración
 
-### 1. Clonar el repositorio
+### Opción 1: Con Docker (Recomendado)
+
+#### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/Boris-Espinosa/prueba-tecnica.git
 cd prueba-tecnica
 ```
 
-### 2. Instalar dependencias
+#### 2. Configurar variables de entorno (opcional)
+
+Puedes personalizar cualquier configuración creando un archivo `.env` en la raíz del proyecto:
+
+```env
+# Database Configuration (valores por defecto mostrados)
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=password
+DB_NAME=notes_db
+
+# JWT Configuration
+JWT_SECRET=your_super_secret_key_change_this_in_production
+JWT_EXPIRES_IN=86400000
+
+# Application
+NODE_ENV=development
+PORT=3000
+```
+
+**IMPORTANTE**:
+
+- Si no creas un `.env`, Docker usará los valores por defecto mostrados arriba
+- En producción, **siempre** configura `JWT_SECRET` con una clave segura
+- Las variables de base de datos deben coincidir entre PostgreSQL y la aplicación
+
+#### 3. Iniciar con Docker Compose
+
+```bash
+# Desarrollo (con hot-reload)
+docker-compose -f docker-compose.dev.yml up -d
+
+# Producción
+docker-compose up -d
+```
+
+Docker creará automáticamente:
+
+- Base de datos PostgreSQL
+- Tablas y esquema (TypeORM con synchronize)
+- Servidor de la aplicación
+
+El servidor estará disponible en `http://localhost:3000`
+
+### Opción 2: Ejecución Local (Sin Docker)
+
+#### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/Boris-Espinosa/prueba-tecnica.git
+cd prueba-tecnica
+```
+
+#### 2. Instalar dependencias
 
 ```bash
 npm install
 ```
 
-### 3. Configurar variables de entorno
+#### 3. Configurar PostgreSQL
+
+Asegúrate de tener PostgreSQL instalado y crea la base de datos:
+
+```sql
+CREATE DATABASE notes_db;
+```
+
+#### 4. Configurar variables de entorno
 
 Crear un archivo `.env` en la raíz del proyecto:
 
@@ -206,35 +277,34 @@ NODE_ENV=development
 PORT=3000
 ```
 
-**IMPORTANTE**: Cambia `JWT_SECRET` por una clave segura en producción.
+#### 5. Iniciar la aplicación
 
-### 4. Configurar Base de Datos
-
-#### Opción A: Usando Docker (Recomendado)
+**Desarrollo (con hot-reload):**
 
 ```bash
-docker-compose up -d postgres
+npm run dev
 ```
 
-#### Opción B: PostgreSQL Local
-
-Asegúrate de tener PostgreSQL instalado y crea la base de datos:
-
-```sql
-CREATE DATABASE notes_db;
-```
-
-### 5. Sincronizar esquema de base de datos
+**Producción:**
 
 ```bash
-npm run db:sync
+npm ci --omit=dev
+
+npm run build
+
+npm start
 ```
+
+Las tablas se crearán automáticamente al iniciar la aplicación (TypeORM synchronize).
+
+**Nota:** En desarrollo, el hot-reload usa `tsx --watch`. Si necesitas usar nodemon (como en Docker), ejecuta `npm run dev:docker`.
 
 ## Scripts NPM Disponibles
 
 | Script                  | Descripción                                          |
 | ----------------------- | ---------------------------------------------------- |
 | `npm run dev`           | Inicia el servidor en modo desarrollo con hot-reload |
+| `npm run dev:docker`    | Inicia con nodemon (usado por Docker)                |
 | `npm run build`         | Compila TypeScript a JavaScript en `/dist`           |
 | `npm start`             | Ejecuta la aplicación compilada (producción)         |
 | `npm run lint`          | Ejecuta ESLint para verificar el código              |
@@ -246,48 +316,38 @@ npm run db:sync
 | `npm run test:watch`    | Ejecuta tests en modo watch                          |
 | `npm run test:coverage` | Ejecuta tests con reporte de cobertura               |
 | `npm run test:ui`       | Abre UI de Vitest para visualizar tests              |
-| `npm run db:sync`       | Sincroniza el esquema de la base de datos            |
 
-## Ejecución
+## Comandos Útiles
 
-### En local (Desarrollo)
-
-```bash
-# Iniciar en modo desarrollo
-npm run dev
-```
-
-### En local (Desarrollo)
+### Docker
 
 ```bash
-# Iniciar en modo produccion
-npm ci --omit=dev
+# Desarrollo con hot-reload
+docker-compose -f docker-compose.dev.yml up -d
 
-npm run build
-
-npm start
-```
-
-El servidor estará disponible en `http://localhost:3000`
-
-### Con Docker Compose (Producción)
-
-```bash
-# Construir y ejecutar todos los servicios
-docker-compose up -d
-
-# Ver logs
-docker-compose logs -f
+# Ver logs en tiempo real
+docker-compose -f docker-compose.dev.yml logs -f app
 
 # Detener servicios
-docker-compose down
+docker-compose -f docker-compose.dev.yml down
+
+# Producción
+docker-compose up -d
+
+# Reconstruir imagen después de cambios en dependencias
+docker-compose -f docker-compose.dev.yml up --build -d
 ```
 
-### Con Docker Compose (Desarrollo)
+### Local (sin Docker)
 
 ```bash
-# Usar configuración de desarrollo
-docker-compose -f docker-compose.dev.yml up -d
+# Desarrollo
+npm run dev
+
+# Producción
+npm ci --omit=dev
+npm run build
+npm start
 ```
 
 ## Uso de la API
@@ -432,7 +492,7 @@ start coverage/index.html # Windows
 xdg-open coverage/index.html # Linux
 ```
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 prueba-tecnica/
@@ -448,6 +508,7 @@ prueba-tecnica/
 ├── Dockerfile
 ├── Dockerfile.dev
 ├── eslint.config.ts
+├── nodemon.json
 ├── package.json
 ├── package-lock.json
 ├── README.md
@@ -533,7 +594,7 @@ Swagger UI permite:
 
 ### Autenticación en Swagger
 
-1. Hacer login en `/auth/login`
+1. Registrarse en `/auth/register` o login en `/auth/login`
 2. Copiar el token de la respuesta
 3. Hacer clic en "Authorize" en la esquina superior derecha
 4. Introducir: `YOUR_TOKEN_HERE` (Bearer se añade automaticamente)

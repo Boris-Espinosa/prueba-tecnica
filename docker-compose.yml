@@ -1,14 +1,12 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
     container_name: notes-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: notes_db
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-notes_db}
     ports:
       - "5432:5432"
     volumes:
@@ -31,14 +29,15 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV:-production}
       DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: password
-      DB_NAME: notes_db
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      DB_NAME: ${DB_NAME:-notes_db}
       JWT_SECRET: ${JWT_SECRET:-change_this_secret_key_in_production}
-      JWT_EXPIRES_IN: "86400000"
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-86400000}
+      PORT: ${PORT:-3000}
     ports:
       - "3000:3000"
     networks:

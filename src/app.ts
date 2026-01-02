@@ -4,12 +4,16 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import authRoutes from './modules/auth/auth.routes.js';
 import notesRoutes from './modules/notes/notes.routes.js';
-import { errorHandler, requestIdMiddleware } from './shared/middlewares/index.js';
+import {
+  errorHandler,
+  requestIdMiddleware,
+} from './shared/middlewares/index.js';
 import { normalLimiter } from './shared/middlewares/rate.Limiter.middleware.js';
 import { logger } from './shared/utils/logger.js';
 import { swaggerSpec } from './shared/config/swagger.js';
 
 const app = express();
+app.disable('x-powered-by');
 
 app.use(express.json());
 app.use(cors());

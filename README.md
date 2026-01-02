@@ -75,6 +75,7 @@ API REST desarrollada en Node.js con Express para gestionar un sistema de notas 
 
 - **jsonwebtoken** - Tokens JWT
 - **bcryptjs** - Hash de contraseñas
+- **cors**
 - **express-rate-limit** - Limitación de peticiones
 - **zod** - Validación de esquemas
 
@@ -115,7 +116,7 @@ Se implementó una **arquitectura modular** organizada por dominios (auth, notes
 
 - Soporte robusto de relaciones (usuarios, notas, colaboradores)
 - ACID compliance para integridad de datos
-- TypeORM proporciona migraciones, decoradores y tipo seguro
+- TypeORM proporciona decoradores y tipo seguro
 - Excelente rendimiento para operaciones complejas
 
 ### Autenticación
@@ -201,7 +202,7 @@ DB_NAME=notes_db
 
 # JWT Configuration
 JWT_SECRET=your_super_secret_key_change_this_in_production
-JWT_EXPIRES_IN=86400000
+JWT_EXPIRES_IN=24h
 
 # Application
 NODE_ENV=development
@@ -269,7 +270,7 @@ DB_NAME=notes_db
 
 # JWT Configuration
 JWT_SECRET=your_super_secret_key_change_this_in_production
-JWT_EXPIRES_IN=86400000
+JWT_EXPIRES_IN=24h
 
 # Application
 NODE_ENV=development
@@ -355,10 +356,11 @@ npm start
 
 #### Autenticación
 
-| Método | Endpoint         | Descripción             | Requiere Auth |
-| ------ | ---------------- | ----------------------- | ------------- |
-| POST   | `/auth/register` | Registrar nuevo usuario | No            |
-| POST   | `/auth/login`    | Iniciar sesión          | No            |
+| Método | Endpoint         | Descripción              | Requiere Auth |
+| ------ | ---------------- | ------------------------ | ------------- |
+| POST   | `/auth/register` | Registrar nuevo usuario  | No            |
+| POST   | `/auth/login`    | Iniciar sesión           | No            |
+| GET    | `/auth/:id`      | Encontrar usuario por ID | No            |
 
 #### Notas
 
@@ -380,7 +382,7 @@ curl -X POST http://localhost:3000/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "usuario@ejemplo.com",
-    "password": "Password123!"
+    "password": "password"
   }'
 ```
 
@@ -391,7 +393,7 @@ curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "usuario@ejemplo.com",
-    "password": "Password123!"
+    "password": "password"
   }'
 ```
 
@@ -666,17 +668,18 @@ Procesa todos los errores y devuelve respuestas consistentes:
 
 ## Variables de Entorno
 
-| Variable         | Descripción                   | Ejemplo                      | Requerido |
-| ---------------- | ----------------------------- | ---------------------------- | --------- |
-| `DB_HOST`        | Host de PostgreSQL            | `localhost`                  | Sí        |
-| `DB_PORT`        | Puerto de PostgreSQL          | `5432`                       | Sí        |
-| `DB_USER`        | Usuario de PostgreSQL         | `postgres`                   | Sí        |
-| `DB_PASSWORD`    | Contraseña de PostgreSQL      | `password`                   | Sí        |
-| `DB_NAME`        | Nombre de la base de datos    | `notes_db`                   | Sí        |
-| `JWT_SECRET`     | Clave secreta para JWT        | `your_secret_key`            | Sí        |
-| `JWT_EXPIRES_IN` | Tiempo de expiración JWT (ms) | `86400000` (24h)             | Sí        |
-| `NODE_ENV`       | Entorno de ejecución          | `development` / `production` | No        |
-| `PORT`           | Puerto del servidor           | `3000`                       | No        |
+| Variable          | Descripción                                        | Ejemplo                                   | Requerido |
+| ----------------- | -------------------------------------------------- | ----------------------------------------- | --------- |
+| `DB_HOST`         | Host de PostgreSQL                                 | `localhost`                               | Sí        |
+| `DB_PORT`         | Puerto de PostgreSQL                               | `5432`                                    | Sí        |
+| `DB_USER`         | Usuario de PostgreSQL                              | `postgres`                                | Sí        |
+| `DB_PASSWORD`     | Contraseña de PostgreSQL                           | `password`                                | Sí        |
+| `DB_NAME`         | Nombre de la base de datos                         | `notes_db`                                | Sí        |
+| `JWT_SECRET`      | Clave secreta para JWT                             | `your_secret_key`                         | Sí        |
+| `JWT_EXPIRES_IN`  | Tiempo de expiración JWT                           | `24h`                                     | Sí        |
+| `NODE_ENV`        | Entorno de ejecución                               | `development` / `production`              | No        |
+| `PORT`            | Puerto del servidor                                | `3000`                                    | No        |
+| `ALLOWED_ORIGINS` | Orígenes permitidos para CORS (separados por coma) | `http://localhost:3000,https://myapp.com` | No        |
 
 ## Despliegue
 

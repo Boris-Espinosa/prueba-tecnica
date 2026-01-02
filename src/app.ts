@@ -21,7 +21,28 @@ const app = express();
 app.disable('x-powered-by');
 
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
+  : undefined;
+
+const corsOptions = allowedOrigins
+  ? {
+      origin: (
+        origin: string | undefined,
+        callback: (err: Error | null, allow?: boolean) => void
+      ) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true,
+    }
+  : {};
+
+app.use(cors(corsOptions));
 
 app.use(requestIdMiddleware);
 

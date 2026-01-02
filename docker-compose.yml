@@ -35,8 +35,8 @@ services:
       DB_USER: ${DB_USER:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-password}
       DB_NAME: ${DB_NAME:-notes_db}
-      JWT_SECRET: ${JWT_SECRET:-change_this_secret_key_in_production}
-      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-86400000}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
       PORT: ${PORT:-3000}
     ports:
       - "3000:3000"

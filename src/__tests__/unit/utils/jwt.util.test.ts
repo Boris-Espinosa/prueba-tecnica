@@ -31,7 +31,7 @@ describe('JWT Util', () => {
 
     it('should generate token with custom expiration', async () => {
       const payload = { id: 1, email: 'test@example.com' };
-      const expiresIn = 3600000;
+      const expiresIn = '1h';
 
       const token = await generateToken(payload, expiresIn);
 

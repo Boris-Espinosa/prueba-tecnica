@@ -169,6 +169,6 @@ router.post('/login', authLimiter, validate(loginSchema), login);
  *               status: 404
  *               message: User not found
  */
-router.get('/:id', validate(findByIdSchema), findById);
+router.get('/:id', authLimiter, validate(findByIdSchema), findById);
 
 export default router;

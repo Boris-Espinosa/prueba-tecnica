@@ -33,12 +33,15 @@ export const verifyToken = async (token: string): Promise<JWTPayload> => {
 
 export const generateToken = async (
   payload: { id: number; email: string },
-  expiresIn: number = parseInt(process.env.JWT_EXPIRES_IN ?? '86400000')
+  expiresIn?: string | number
 ): Promise<string> => {
   if (!process.env.JWT_SECRET) {
     throw new AppError('JWT_SECRET is missing', 500);
   }
 
-  const options: SignOptions = { expiresIn };
+  const expiresInValue = expiresIn ?? process.env.JWT_EXPIRES_IN ?? '24h';
+  const options: SignOptions = {
+    expiresIn: expiresInValue as SignOptions['expiresIn'],
+  };
   return await signAsync(payload, process.env.JWT_SECRET, options);
 };

@@ -207,6 +207,9 @@ JWT_EXPIRES_IN=24h
 # Application
 NODE_ENV=development
 PORT=3000
+
+# CORS (opcional - orígenes permitidos separados por coma)
+# ALLOWED_ORIGINS=http://localhost:3000,https://myapp.com
 ```
 
 **IMPORTANTE**:
@@ -275,6 +278,9 @@ JWT_EXPIRES_IN=24h
 # Application
 NODE_ENV=development
 PORT=3000
+
+# CORS (opcional - orígenes permitidos separados por coma)
+# ALLOWED_ORIGINS=http://localhost:3000,https://myapp.com
 ```
 
 #### 5. Iniciar la aplicación

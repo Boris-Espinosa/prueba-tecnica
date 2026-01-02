@@ -62,6 +62,7 @@ describe('AuthController', () => {
 
       expect(mockResponse.status).toHaveBeenCalledWith(201);
       expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 201,
         user: mockUser,
         token: mockToken,
       });
@@ -105,6 +106,7 @@ describe('AuthController', () => {
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 200,
         user: mockUser,
         token: mockToken,
       });
@@ -141,7 +143,10 @@ describe('AuthController', () => {
 
       expect(authService.findById).toHaveBeenCalledWith(1);
       expect(mockResponse.status).toHaveBeenCalledWith(200);
-      expect(mockResponse.json).toHaveBeenCalledWith(mockUser);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 200,
+        ...mockUser,
+      });
     });
 
     it('should call next with error on failure', async () => {

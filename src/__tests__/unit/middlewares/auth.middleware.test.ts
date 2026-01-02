@@ -58,11 +58,10 @@ describe('AuthMiddleware', () => {
       mockNext
     );
 
-    expect(mockResponse.status).toHaveBeenCalledWith(401);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      message: 'Header de autorización invalido',
-    });
-    expect(mockNext).not.toHaveBeenCalled();
+    expect(mockNext).toHaveBeenCalled();
+    const error = (mockNext as any).mock.calls[0][0];
+    expect(error.message).toBe('Header de autorización invalido');
+    expect(error.status).toBe(401);
   });
 
   it('should return 401 if authorization header does not have token', async () => {
@@ -76,11 +75,10 @@ describe('AuthMiddleware', () => {
       mockNext
     );
 
-    expect(mockResponse.status).toHaveBeenCalledWith(401);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      message: 'Formato de header de autorización invalido',
-    });
-    expect(mockNext).not.toHaveBeenCalled();
+    expect(mockNext).toHaveBeenCalled();
+    const error = (mockNext as any).mock.calls[0][0];
+    expect(error.message).toBe('Formato de header de autorización invalido');
+    expect(error.status).toBe(401);
   });
 
   it('should return 500 if token verification fails', async () => {
@@ -96,10 +94,8 @@ describe('AuthMiddleware', () => {
       mockNext
     );
 
-    expect(mockResponse.status).toHaveBeenCalledWith(500);
-    expect(mockResponse.json).toHaveBeenCalledWith({
-      message: 'Internal server error',
-    });
-    expect(mockNext).not.toHaveBeenCalled();
+    expect(mockNext).toHaveBeenCalled();
+    const error = (mockNext as any).mock.calls[0][0];
+    expect(error.message).toBe('Invalid token');
   });
 });

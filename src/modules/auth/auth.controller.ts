@@ -12,8 +12,8 @@ export const register = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
   try {
+    const requestLogger = req.log ?? logger;
     requestLogger.info(
       { action: 'register_attempt', email: req.body.email },
       'User registration attempt'
@@ -34,10 +34,6 @@ export const register = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'register_error', error: err.message },
-      'Registration failed'
-    );
     next(err);
   }
 };
@@ -47,8 +43,8 @@ export const login = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
   try {
+    const requestLogger = req.log ?? logger;
     requestLogger.info(
       { action: 'login_attempt', email: req.body.email },
       'User login attempt'
@@ -69,10 +65,6 @@ export const login = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'login_error', error: err.message },
-      'Login failed'
-    );
     next(err);
   }
 };
@@ -82,8 +74,8 @@ export const findById = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
   try {
+    const requestLogger = req.log ?? logger;
     requestLogger.info(
       { action: 'Find_user_by_id_attempt', userToFindId: req.params.id },
       'Find user by id attempt'
@@ -100,10 +92,6 @@ export const findById = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'Find_user_by_id_error', error: err.message },
-      'Find user by id failed'
-    );
     next(err);
   }
 };

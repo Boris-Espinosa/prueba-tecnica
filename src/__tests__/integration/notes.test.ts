@@ -51,6 +51,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(201);
+      expect(response.body).toHaveProperty('status', 201);
       expect(response.body).toHaveProperty('id');
       expect(response.body).toHaveProperty('title', 'Test Note');
       expect(response.body).toHaveProperty('content', 'Test Content');
@@ -65,6 +66,7 @@ describe.skip('Notes Integration Tests', () => {
       });
 
       expect(response.status).toBe(401);
+      expect(response.body).toHaveProperty('status', 401);
     });
 
     it('should return 400 with invalid data', async () => {
@@ -77,6 +79,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('status', 400);
     });
 
     it('should return 401 with invalid token', async () => {
@@ -89,6 +92,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(401);
+      expect(response.body).toHaveProperty('status', 401);
     });
   });
 
@@ -99,6 +103,7 @@ describe.skip('Notes Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`);
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
       expect(response.body).toHaveProperty('own');
       expect(response.body).toHaveProperty('shared');
       expect(response.body.own).toBeInstanceOf(Array);
@@ -109,6 +114,7 @@ describe.skip('Notes Integration Tests', () => {
       const response = await request(app).get('/notes');
 
       expect(response.status).toBe(401);
+      expect(response.body).toHaveProperty('status', 401);
     });
   });
 
@@ -119,6 +125,7 @@ describe.skip('Notes Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`);
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
       expect(response.body).toHaveProperty('note');
       expect(response.body).toHaveProperty('isOwner', true);
     });
@@ -129,6 +136,7 @@ describe.skip('Notes Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken2}`);
 
       expect(response.status).toBe(403);
+      expect(response.body).toHaveProperty('status', 403);
     });
 
     it('should return 404 if note not found', async () => {
@@ -137,6 +145,7 @@ describe.skip('Notes Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`);
 
       expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty('status', 404);
     });
   });
 
@@ -151,6 +160,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
       expect(response.body).toHaveProperty('title', 'Updated Title');
       expect(response.body).toHaveProperty('content', 'Updated Content');
     });
@@ -164,6 +174,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(403);
+      expect(response.body).toHaveProperty('status', 403);
     });
 
     it('should return 400 with invalid data', async () => {
@@ -175,6 +186,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('status', 400);
     });
   });
 
@@ -188,6 +200,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
       expect(response.body).toHaveProperty(
         'message',
         'Nota compartida exitosamente'
@@ -200,6 +213,7 @@ describe.skip('Notes Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken2}`);
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
       expect(response.body).toHaveProperty('isOwner', false);
     });
 
@@ -212,6 +226,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
     });
 
     it('should return 403 if non-owner tries to share', async () => {
@@ -223,6 +238,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(403);
+      expect(response.body).toHaveProperty('status', 403);
     });
 
     it('should return 404 if collaborator email not found', async () => {
@@ -234,6 +250,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty('status', 404);
     });
 
     it('should return 400 if sharing with self', async () => {
@@ -245,6 +262,7 @@ describe.skip('Notes Integration Tests', () => {
         });
 
       expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('status', 400);
     });
   });
 
@@ -255,6 +273,7 @@ describe.skip('Notes Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken2}`);
 
       expect(response.status).toBe(403);
+      expect(response.body).toHaveProperty('status', 403);
       expect(response.body).toHaveProperty(
         'message',
         'Solo el propietario puede eliminar la nota'
@@ -267,6 +286,7 @@ describe.skip('Notes Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`);
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
       expect(response.body).toHaveProperty('message', 'Nota eliminada');
     });
 
@@ -276,6 +296,7 @@ describe.skip('Notes Integration Tests', () => {
         .set('Authorization', `Bearer ${authToken}`);
 
       expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty('status', 404);
     });
   });
 });

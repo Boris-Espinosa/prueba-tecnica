@@ -13,9 +13,9 @@ export const createNote = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
-  const userId = (req as AuthRequest).clientUser.id;
   try {
+    const requestLogger = req.log ?? logger;
+    const userId = (req as AuthRequest).clientUser.id;
     requestLogger.info(
       { action: 'create_note_attempt', userId, title: req.body.title },
       'Creating new note'
@@ -36,10 +36,6 @@ export const createNote = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'create_note_error', error: err.message },
-      'Failed to create note'
-    );
     next(err);
   }
 };
@@ -49,9 +45,9 @@ export const getAllNotes = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
-  const userId = (req as AuthRequest).clientUser.id;
   try {
+    const requestLogger = req.log ?? logger;
+    const userId = (req as AuthRequest).clientUser.id;
     requestLogger.info(
       { action: 'get_all_notes_attempt', userId },
       'Fetching all notes for user'
@@ -73,10 +69,6 @@ export const getAllNotes = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'get_all_notes_error', error: err.message },
-      'Failed to fetch notes'
-    );
     next(err);
   }
 };
@@ -86,10 +78,10 @@ export const getOneNote = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
-  const userId = (req as AuthRequest).clientUser.id;
-  const noteId = parseInt(req.params.id);
   try {
+    const requestLogger = req.log ?? logger;
+    const userId = (req as AuthRequest).clientUser.id;
+    const noteId = parseInt(req.params.id);
     requestLogger.info(
       { action: 'get_note_attempt', userId, noteId },
       'Fetching note by ID'
@@ -107,10 +99,6 @@ export const getOneNote = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'get_note_error', error: err.message },
-      'Failed to fetch note'
-    );
     next(err);
   }
 };
@@ -120,10 +108,10 @@ export const updateNote = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
-  const userId = (req as AuthRequest).clientUser.id;
-  const noteId = parseInt(req.params.id);
   try {
+    const requestLogger = req.log ?? logger;
+    const userId = (req as AuthRequest).clientUser.id;
+    const noteId = parseInt(req.params.id);
     requestLogger.info(
       { action: 'update_note_attempt', userId, noteId, title: req.body.title },
       'Updating note'
@@ -145,10 +133,6 @@ export const updateNote = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'update_note_error', error: err.message },
-      'Failed to update note'
-    );
     next(err);
   }
 };
@@ -158,10 +142,10 @@ export const deleteNote = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
-  const userId = (req as AuthRequest).clientUser.id;
-  const noteId = parseInt(req.params.id);
   try {
+    const requestLogger = req.log ?? logger;
+    const userId = (req as AuthRequest).clientUser.id;
+    const noteId = parseInt(req.params.id);
     requestLogger.info(
       { action: 'delete_note_attempt', userId, noteId },
       'Deleting note'
@@ -179,10 +163,6 @@ export const deleteNote = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'delete_note_error', error: err.message },
-      'Failed to delete note'
-    );
     next(err);
   }
 };
@@ -192,10 +172,10 @@ export const shareNote = async (
   res: Response,
   next: NextFunction
 ) => {
-  const requestLogger = req.log ?? logger;
-  const userId = (req as AuthRequest).clientUser.id;
-  const noteId = parseInt(req.params.id);
   try {
+    const requestLogger = req.log ?? logger;
+    const userId = (req as AuthRequest).clientUser.id;
+    const noteId = parseInt(req.params.id);
     requestLogger.info(
       {
         action: 'share_note_attempt',
@@ -225,10 +205,6 @@ export const shareNote = async (
       ...response,
     });
   } catch (err: any) {
-    requestLogger.error(
-      { action: 'share_note_error', error: err.message },
-      'Failed to share note'
-    );
     next(err);
   }
 };

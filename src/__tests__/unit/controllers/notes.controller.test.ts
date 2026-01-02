@@ -70,7 +70,10 @@ describe('NotesController', () => {
       );
 
       expect(mockResponse.status).toHaveBeenCalledWith(201);
-      expect(mockResponse.json).toHaveBeenCalledWith(mockNote);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 201,
+        ...mockNote,
+      });
     });
 
     it('should call next with error on failure', async () => {
@@ -108,7 +111,10 @@ describe('NotesController', () => {
       );
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
-      expect(mockResponse.json).toHaveBeenCalledWith(mockNotes);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 200,
+        ...mockNotes,
+      });
     });
 
     it('should call next with error on failure', async () => {
@@ -145,7 +151,10 @@ describe('NotesController', () => {
       );
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
-      expect(mockResponse.json).toHaveBeenCalledWith(mockNote);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 200,
+        ...mockNote,
+      });
     });
 
     it('should call next with error on failure', async () => {
@@ -188,7 +197,10 @@ describe('NotesController', () => {
       );
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
-      expect(mockResponse.json).toHaveBeenCalledWith(mockNote);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 200,
+        ...mockNote,
+      });
     });
 
     it('should call next with error on failure', async () => {
@@ -222,7 +234,10 @@ describe('NotesController', () => {
       );
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
-      expect(mockResponse.json).toHaveBeenCalledWith(serviceResponse);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 200,
+        ...serviceResponse,
+      });
     });
 
     it('should call next with error on failure', async () => {
@@ -261,7 +276,10 @@ describe('NotesController', () => {
       );
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
-      expect(mockResponse.json).toHaveBeenCalledWith(mockCollaborator);
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        status: 200,
+        ...mockCollaborator,
+      });
     });
 
     it('should call next with error on failure', async () => {

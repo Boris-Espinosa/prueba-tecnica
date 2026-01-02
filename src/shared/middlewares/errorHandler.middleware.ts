@@ -14,23 +14,21 @@ export const errorHandler = (
   _next: NextFunction
 ) => {
   const requestLogger = req.log ?? logger;
-  requestLogger.error({
-    message: err.message,
-    stack: err.stack,
-    requestId: req.id,
-    method: req.method,
-    path: req.path,
-    errorType: err.name,
-  });
-
-  if (err instanceof AppError) {
-    return res.status(err.status).json({
-      status: err.status,
-      message: err.message,
-    });
-  }
 
   if (err.name === 'ZodError') {
+    requestLogger.error({
+      message: 'Validation error',
+      requestId: req.id,
+      method: req.method,
+      path: req.path,
+      errorType: 'ZodError',
+      validationErrors: err.issues.map((e: any) => ({
+        path: e.path.join('.'),
+        message: e.message,
+        code: e.code,
+      })),
+    });
+
     return res.status(400).json({
       status: 400,
       message: 'Validation error',
@@ -38,6 +36,23 @@ export const errorHandler = (
         path: e.path.join('.'),
         message: e.message,
       })),
+    });
+  }
+
+  requestLogger.error({
+    message: err.message,
+    stack: err.stack,
+    requestId: req.id,
+    method: req.method,
+    path: req.path,
+    errorType: err.name,
+    ...(err instanceof AppError && { statusCode: err.status }),
+  });
+
+  if (err instanceof AppError) {
+    return res.status(err.status).json({
+      status: err.status,
+      message: err.message,
     });
   }
 

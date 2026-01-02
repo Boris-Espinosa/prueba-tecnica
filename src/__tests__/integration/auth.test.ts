@@ -31,6 +31,7 @@ describe.skip('Auth Integration Tests', () => {
       });
 
       expect(response.status).toBe(201);
+      expect(response.body).toHaveProperty('status', 201);
       expect(response.body).toHaveProperty('token');
       expect(response.body).toHaveProperty('user');
       expect(response.body.user).toHaveProperty('email', 'test@example.com');
@@ -47,6 +48,7 @@ describe.skip('Auth Integration Tests', () => {
       });
 
       expect(response.status).toBe(409);
+      expect(response.body).toHaveProperty('status', 409);
       expect(response.body).toHaveProperty('message');
     });
 
@@ -55,8 +57,8 @@ describe.skip('Auth Integration Tests', () => {
         email: 'invalid-email',
         password: 'password123',
       });
-
       expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('status', 400);
     });
 
     it('should return 400 if password is too short', async () => {
@@ -64,8 +66,8 @@ describe.skip('Auth Integration Tests', () => {
         email: 'new@example.com',
         password: '123',
       });
-
       expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('status', 400);
     });
   });
 
@@ -77,6 +79,7 @@ describe.skip('Auth Integration Tests', () => {
       });
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
       expect(response.body).toHaveProperty('token');
       expect(response.body).toHaveProperty('user');
       expect(response.body.user).not.toHaveProperty('password');
@@ -89,6 +92,7 @@ describe.skip('Auth Integration Tests', () => {
       });
 
       expect(response.status).toBe(401);
+      expect(response.body).toHaveProperty('status', 401);
       expect(response.body).toHaveProperty('message');
     });
 
@@ -99,6 +103,7 @@ describe.skip('Auth Integration Tests', () => {
       });
 
       expect(response.status).toBe(401);
+      expect(response.body).toHaveProperty('status', 401);
     });
 
     it('should return 400 with invalid email format', async () => {
@@ -108,6 +113,7 @@ describe.skip('Auth Integration Tests', () => {
       });
 
       expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('status', 400);
     });
   });
 
@@ -116,6 +122,7 @@ describe.skip('Auth Integration Tests', () => {
       const response = await request(app).get(`/auth/${userId}`);
 
       expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('status', 200);
       expect(response.body).toHaveProperty('email', 'test@example.com');
       expect(response.body).not.toHaveProperty('password');
     });
@@ -124,12 +131,14 @@ describe.skip('Auth Integration Tests', () => {
       const response = await request(app).get('/auth/99999');
 
       expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty('status', 404);
     });
 
     it('should return 400 if id is not a number', async () => {
       const response = await request(app).get('/auth/invalid');
 
       expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('status', 400);
     });
   });
 });

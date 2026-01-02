@@ -71,11 +71,9 @@ describe('ValidateMiddleware', () => {
       mockNext
     );
 
-    expect(mockResponse.status).toHaveBeenCalledWith(400);
-    expect(mockResponse.json).toHaveBeenCalled();
-    const callArgs = (mockResponse.json as any).mock.calls[0][0];
-    expect(callArgs).toHaveProperty('message');
-    expect(callArgs).toHaveProperty('errors');
+    expect(mockNext).toHaveBeenCalled();
+    const error = (mockNext as any).mock.calls[0][0];
+    expect(error.name).toBe('ZodError');
   });
 
   it('should include validation error details', async () => {
@@ -96,8 +94,10 @@ describe('ValidateMiddleware', () => {
       mockNext
     );
 
-    const callArgs = (mockResponse.json as any).mock.calls[0][0];
-    expect(callArgs.errors).toBeDefined();
-    expect(Array.isArray(callArgs.errors)).toBe(true);
+    expect(mockNext).toHaveBeenCalled();
+    const error = (mockNext as any).mock.calls[0][0];
+    expect(error.name).toBe('ZodError');
+    expect(error.issues).toBeDefined();
+    expect(Array.isArray(error.issues)).toBe(true);
   });
 });

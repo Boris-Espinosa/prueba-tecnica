@@ -35,7 +35,7 @@ describe('ErrorHandlerMiddleware', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(403);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      success: false,
+      status: 403,
       message: 'Custom error message',
     });
   });
@@ -55,9 +55,9 @@ describe('ErrorHandlerMiddleware', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(400);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      success: false,
+      status: 400,
       message: 'Validation error',
-      errors: error.issues,
+      errors: [{ path: 'email', message: 'Invalid email' }],
     });
   });
 
@@ -76,7 +76,7 @@ describe('ErrorHandlerMiddleware', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      success: false,
+      status: 500,
       message: 'Database error',
     });
   });
@@ -96,7 +96,7 @@ describe('ErrorHandlerMiddleware', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(401);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      success: false,
+      status: 401,
       message: 'Token inválido',
     });
   });
@@ -116,7 +116,7 @@ describe('ErrorHandlerMiddleware', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(401);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      success: false,
+      status: 401,
       message: 'Token expirado',
     });
   });
@@ -133,7 +133,7 @@ describe('ErrorHandlerMiddleware', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      success: false,
+      status: 500,
       message: 'Generic error',
     });
   });
@@ -164,7 +164,7 @@ describe('ErrorHandlerMiddleware', () => {
 
     expect(mockResponse.status).toHaveBeenCalledWith(400);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      success: false,
+      status: 400,
       message: 'Error with status',
     });
   });

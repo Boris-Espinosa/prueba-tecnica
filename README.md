@@ -25,7 +25,6 @@ API REST desarrollada en Node.js con Express para gestionar un sistema de notas 
 - [Variables de Entorno](#variables-de-entorno)
 - [Despliegue](#despliegue)
 - [Contribución](#contribución)
-- [Licencia](#licencia)
 - [Autor](#autor)
 - [Agradecimientos](#agradecimientos)
 
@@ -709,10 +708,6 @@ Asegúrate de:
 3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abre un Pull Request
-
-## Licencia
-
-ISC
 
 ## Autor
 

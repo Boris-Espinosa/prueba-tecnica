@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger';
+
 export const requiredEnvVars = [
   'DB_HOST',
   'DB_PORT',
@@ -25,6 +27,4 @@ export const validateEnv = (): void => {
     console.error('\nPor favor, configura estas variables en tu archivo .env');
     process.exit(1);
   }
-
-  console.log('Todas las variables de entorno requeridas están configuradas');
 };

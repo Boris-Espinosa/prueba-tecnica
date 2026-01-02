@@ -1,7 +1,11 @@
+/*----- libraries imports -----*/
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+
+/*----- internal imports -----*/
 import { NotesService } from '../../../modules/notes/notes.service';
 import { AppError } from '../../../common/AppError.class';
 
+/*----- mocks -----*/
 const { mockNoteRepository, mockCollaboratorRepository, mockUserRepository } =
   vi.hoisted(() => ({
     mockNoteRepository: {

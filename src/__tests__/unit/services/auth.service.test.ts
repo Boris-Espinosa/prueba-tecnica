@@ -1,6 +1,8 @@
+/*----- libraries imports -----*/
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import bcrypt from 'bcryptjs';
 
+/*----- mocks -----*/
 vi.mock('../../../shared/config/database', () => {
   const mockFindOne = vi.fn();
   const mockCreate = vi.fn();
@@ -21,6 +23,7 @@ vi.mock('../../../shared/utils/jwt.util', () => ({
   generateToken: vi.fn(() => Promise.resolve('mock-jwt-token')),
 }));
 
+/*----- internal imports -----*/
 import { AuthService } from '../../../modules/auth/auth.service';
 import { AppError } from '../../../common/AppError.class';
 import { AppDataSource } from '../../../shared/config/database';

@@ -1,8 +1,14 @@
+/*----- libraries imports -----*/
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { Request, Response, NextFunction } from 'express';
+
+/*----- internal imports -----*/
 import { authMiddleware } from '../../../shared/middlewares/auth.middleware';
+
+/*----- utilities -----*/
 import { verifyToken } from '../../../shared/utils/jwt.util';
 
+/*----- mocks -----*/
 vi.mock('../../../shared/utils/jwt.util');
 
 describe('AuthMiddleware', () => {

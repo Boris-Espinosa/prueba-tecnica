@@ -1,6 +1,11 @@
+/*----- libraries imports -----*/
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { generateToken, verifyToken } from '../../../shared/utils/jwt.util';
+
+/*----- internal imports -----*/
 import { AppError } from '../../../common/AppError.class';
+
+/*----- utilities -----*/
+import { generateToken, verifyToken } from '../../../shared/utils/jwt.util';
 
 describe('JWT Util', () => {
   const originalEnv = process.env.JWT_SECRET;

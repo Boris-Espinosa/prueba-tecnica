@@ -1,7 +1,10 @@
+/*----- libraries imports -----*/
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { Request, Response, NextFunction } from 'express';
-import { validate } from '../../../shared/middlewares/validate.middleware';
 import { z } from 'zod';
+
+/*----- internal imports -----*/
+import { validate } from '../../../shared/middlewares/validate.middleware';
 
 describe('ValidateMiddleware', () => {
   let mockRequest: Partial<Request>;

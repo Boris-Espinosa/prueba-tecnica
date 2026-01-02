@@ -1,6 +1,8 @@
+/*----- libraries imports -----*/
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Request, Response, NextFunction } from 'express';
 
+/*----- mocks -----*/
 vi.mock('../../../modules/auth/auth.service', () => ({
   authService: {
     register: vi.fn(),
@@ -9,6 +11,7 @@ vi.mock('../../../modules/auth/auth.service', () => ({
   },
 }));
 
+/*----- internal imports -----*/
 import {
   register,
   login,

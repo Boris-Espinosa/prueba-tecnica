@@ -1,6 +1,8 @@
+/*----- libraries imports -----*/
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Request, Response, NextFunction } from 'express';
 
+/*----- mocks -----*/
 vi.mock('../../../modules/notes/notes.service', () => ({
   notesService: {
     create: vi.fn(),
@@ -12,6 +14,7 @@ vi.mock('../../../modules/notes/notes.service', () => ({
   },
 }));
 
+/*----- internal imports -----*/
 import {
   createNote,
   getAllNotes,

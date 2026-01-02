@@ -1,4 +1,7 @@
+/*----- libraries imports -----*/
 import { describe, it, expect } from 'vitest';
+
+/*----- internal imports -----*/
 import { User } from '../../../entities/User';
 import { Note } from '../../../entities/Note';
 import { NoteCollaborator } from '../../../entities/NoteCollaborator';

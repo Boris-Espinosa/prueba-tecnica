@@ -1,5 +1,8 @@
+/*----- libraries imports -----*/
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { Request, Response, NextFunction } from 'express';
+
+/*----- internal imports -----*/
 import { errorHandler } from '../../../shared/middlewares/errorHandler.middleware';
 import { AppError } from '../../../common/AppError.class';
 

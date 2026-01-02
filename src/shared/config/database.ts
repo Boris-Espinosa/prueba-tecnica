@@ -1,6 +1,9 @@
+/*----- libraries imports -----*/
 import { DataSource } from 'typeorm';
-import { User, Note, NoteCollaborator } from '../../entities/index.js';
 import dotenv from 'dotenv';
+
+/*----- internal imports -----*/
+import { User, Note, NoteCollaborator } from '../../entities/index.js';
 
 dotenv.config();
 

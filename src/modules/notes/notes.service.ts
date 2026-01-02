@@ -1,3 +1,4 @@
+/*----- internal imports -----*/
 import { AppError } from '../../common/AppError.class.js';
 import { AppDataSource } from '../../shared/config/database.js';
 import { Note, NoteCollaborator, User } from '../../entities/index.js';

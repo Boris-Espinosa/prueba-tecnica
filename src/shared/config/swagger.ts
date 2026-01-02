@@ -1,3 +1,4 @@
+/*----- libraries imports -----*/
 import swaggerJsdoc from 'swagger-jsdoc';
 
 const swaggerOptions: swaggerJsdoc.Options = {
@@ -7,9 +8,6 @@ const swaggerOptions: swaggerJsdoc.Options = {
       title: 'Notas Colaborativas API',
       version: '1.0.0',
       description: 'API REST para gestión de notas colaborativas',
-      license: {
-        name: 'ISC',
-      },
     },
     servers: [
       {

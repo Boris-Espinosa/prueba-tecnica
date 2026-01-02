@@ -1,4 +1,7 @@
+/*----- libraries imports -----*/
 import express from 'express';
+
+/*----- internal imports -----*/
 import {
   createNote,
   getAllNotes,

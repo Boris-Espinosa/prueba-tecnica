@@ -1,5 +1,3 @@
-import { logger } from '../utils/logger';
-
 export const requiredEnvVars = [
   'DB_HOST',
   'DB_PORT',

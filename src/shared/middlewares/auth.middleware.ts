@@ -1,6 +1,11 @@
+/*----- libraries imports -----*/
 import { NextFunction, Response, Request } from 'express';
+
+/*----- internal imports -----*/
 import { AppError } from '../../common/AppError.class.js';
 import { AuthRequest } from '../../common/interfaces.js';
+
+/*----- utilities -----*/
 import { verifyToken } from '../utils/jwt.util.js';
 
 export const authMiddleware = async (
@@ -26,17 +31,6 @@ export const authMiddleware = async (
 
     next();
   } catch (err: any) {
-    if (err instanceof AppError) {
-      return res.status(err.status).json({ message: err.message });
-    }
-
-    if (err.name === 'JsonWebTokenError') {
-      return res.status(401).json({ message: 'Token inválido' });
-    }
-    if (err.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token expirado' });
-    }
-
-    return res.status(500).json({ message: 'Internal server error' });
+    next(err);
   }
 };

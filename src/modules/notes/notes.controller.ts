@@ -1,6 +1,11 @@
+/*----- libraries imports -----*/
 import { NextFunction, Request, Response } from 'express';
+
+/*----- internal imports -----*/
 import { notesService } from '../notes/notes.service.js';
 import { AuthRequest } from '../../common/interfaces.js';
+
+/*----- utilities -----*/
 import { logger } from '../../shared/utils/logger.js';
 
 export const createNote = async (
@@ -8,27 +13,26 @@ export const createNote = async (
   res: Response,
   next: NextFunction
 ) => {
+  const requestLogger = req.log ?? logger;
+  const userId = (req as AuthRequest).clientUser.id;
   try {
-    const requestLogger = req.log ?? logger;
-    const title = req.body.title;
-    const content = req.body.content ?? '';
-    const id = (req as AuthRequest).clientUser.id;
-
     requestLogger.info(
-      { action: 'create_note_attempt', userId: id, title },
+      { action: 'create_note_attempt', userId, title: req.body.title },
       'Creating new note'
     );
 
-    const response = await notesService.create({ title, content }, id);
+    const response = await notesService.create(
+      { title: req.body.title, content: req.body.content ?? '' },
+      userId
+    );
 
     requestLogger.info(
-      { action: 'create_note_success', userId: id, noteId: response.id },
+      { action: 'create_note_success', userId, noteId: response.id },
       'Note created successfully'
     );
 
     return res.status(201).json(response);
   } catch (err: any) {
-    const requestLogger = req.log ?? logger;
     requestLogger.error(
       { action: 'create_note_error', error: err.message },
       'Failed to create note'
@@ -42,21 +46,20 @@ export const getAllNotes = async (
   res: Response,
   next: NextFunction
 ) => {
+  const requestLogger = req.log ?? logger;
+  const userId = (req as AuthRequest).clientUser.id;
   try {
-    const requestLogger = req.log ?? logger;
-    const id = (req as AuthRequest).clientUser.id;
-
     requestLogger.info(
-      { action: 'get_all_notes_attempt', userId: id },
+      { action: 'get_all_notes_attempt', userId },
       'Fetching all notes for user'
     );
 
-    const response = await notesService.findAllByUser(id);
+    const response = await notesService.findAllByUser(userId);
 
     requestLogger.info(
       {
         action: 'get_all_notes_success',
-        userId: id,
+        userId,
         count: response.own.length + response.shared.length,
       },
       'Notes retrieved successfully'
@@ -64,7 +67,6 @@ export const getAllNotes = async (
 
     return res.status(200).json(response);
   } catch (err: any) {
-    const requestLogger = req.log ?? logger;
     requestLogger.error(
       { action: 'get_all_notes_error', error: err.message },
       'Failed to fetch notes'
@@ -78,11 +80,10 @@ export const getOneNote = async (
   res: Response,
   next: NextFunction
 ) => {
+  const requestLogger = req.log ?? logger;
+  const userId = (req as AuthRequest).clientUser.id;
+  const noteId = parseInt(req.params.id);
   try {
-    const requestLogger = req.log ?? logger;
-    const noteId = parseInt(req.params.id);
-    const userId = (req as AuthRequest).clientUser.id;
-
     requestLogger.info(
       { action: 'get_note_attempt', userId, noteId },
       'Fetching note by ID'
@@ -97,7 +98,6 @@ export const getOneNote = async (
 
     return res.status(200).json(response);
   } catch (err: any) {
-    const requestLogger = req.log ?? logger;
     requestLogger.error(
       { action: 'get_note_error', error: err.message },
       'Failed to fetch note'
@@ -111,20 +111,17 @@ export const updateNote = async (
   res: Response,
   next: NextFunction
 ) => {
+  const requestLogger = req.log ?? logger;
+  const userId = (req as AuthRequest).clientUser.id;
+  const noteId = parseInt(req.params.id);
   try {
-    const requestLogger = req.log ?? logger;
-    const title = req.body.title;
-    const content = req.body.content;
-    const noteId = parseInt(req.params.id);
-    const userId = (req as AuthRequest).clientUser.id;
-
     requestLogger.info(
-      { action: 'update_note_attempt', userId, noteId, title },
+      { action: 'update_note_attempt', userId, noteId, title: req.body.title },
       'Updating note'
     );
 
     const response = await notesService.update(
-      { title, content },
+      { title: req.body.title, content: req.body.content },
       noteId,
       userId
     );
@@ -136,7 +133,6 @@ export const updateNote = async (
 
     return res.status(200).json(response);
   } catch (err: any) {
-    const requestLogger = req.log ?? logger;
     requestLogger.error(
       { action: 'update_note_error', error: err.message },
       'Failed to update note'
@@ -150,11 +146,10 @@ export const deleteNote = async (
   res: Response,
   next: NextFunction
 ) => {
+  const requestLogger = req.log ?? logger;
+  const userId = (req as AuthRequest).clientUser.id;
+  const noteId = parseInt(req.params.id);
   try {
-    const requestLogger = req.log ?? logger;
-    const noteId = parseInt(req.params.id);
-    const userId = (req as AuthRequest).clientUser.id;
-
     requestLogger.info(
       { action: 'delete_note_attempt', userId, noteId },
       'Deleting note'
@@ -169,7 +164,6 @@ export const deleteNote = async (
 
     return res.status(200).json(response);
   } catch (err: any) {
-    const requestLogger = req.log ?? logger;
     requestLogger.error(
       { action: 'delete_note_error', error: err.message },
       'Failed to delete note'
@@ -183,27 +177,36 @@ export const shareNote = async (
   res: Response,
   next: NextFunction
 ) => {
+  const requestLogger = req.log ?? logger;
+  const userId = (req as AuthRequest).clientUser.id;
+  const noteId = parseInt(req.params.id);
   try {
-    const requestLogger = req.log ?? logger;
-    const userId = (req as AuthRequest).clientUser.id;
-    const noteId = parseInt(req.params.id);
-    const email = req.body.email;
-
     requestLogger.info(
-      { action: 'share_note_attempt', userId, noteId, targetEmail: email },
+      {
+        action: 'share_note_attempt',
+        userId,
+        noteId,
+        targetEmail: req.body.email,
+      },
       'Sharing note with user'
     );
 
-    const response = await notesService.share(noteId, userId, { email });
+    const response = await notesService.share(noteId, userId, {
+      email: req.body.email,
+    });
 
     requestLogger.info(
-      { action: 'share_note_success', userId, noteId, targetEmail: email },
+      {
+        action: 'share_note_success',
+        userId,
+        noteId,
+        targetEmail: req.body.email,
+      },
       'Note shared successfully'
     );
 
     return res.status(200).json(response);
   } catch (err: any) {
-    const requestLogger = req.log ?? logger;
     requestLogger.error(
       { action: 'share_note_error', error: err.message },
       'Failed to share note'

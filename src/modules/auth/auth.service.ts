@@ -1,9 +1,14 @@
+/*----- libraries imports -----*/
+import bcrypt from 'bcryptjs';
+
+/*----- internal imports -----*/
 import { AppDataSource } from '../../shared/config/database.js';
 import { User } from '../../entities/index.js';
-import bcrypt from 'bcryptjs';
 import { AppError } from '../../common/AppError.class.js';
-import { generateToken } from '../../shared/utils/jwt.util.js';
 import { RegisterInput, LoginInput } from '../../schemas/auth.schema.js';
+
+/*----- utilities -----*/
+import { generateToken } from '../../shared/utils/jwt.util.js';
 
 const userRepository = AppDataSource.getRepository(User);
 

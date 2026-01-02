@@ -1,5 +1,10 @@
+/*----- libraries imports -----*/
 import { Request, Response, NextFunction } from 'express';
+
+/*----- internal imports -----*/
 import { AppError } from '../../common/AppError.class.js';
+
+/*----- utilities -----*/
 import { logger } from '../utils/logger.js';
 
 export const errorHandler = (
@@ -20,42 +25,44 @@ export const errorHandler = (
 
   if (err instanceof AppError) {
     return res.status(err.status).json({
-      success: false,
+      status: err.status,
       message: err.message,
     });
   }
 
   if (err.name === 'ZodError') {
     return res.status(400).json({
-      success: false,
       message: 'Validation error',
-      errors: err.issues,
+      errors: err.issues.map((e: any) => ({
+        path: e.path.join('.'),
+        message: e.message,
+      })),
     });
   }
 
   if (err.name === 'QueryFailedError') {
     return res.status(500).json({
-      success: false,
+      status: 500,
       message: 'Database error',
     });
   }
 
   if (err.name === 'JsonWebTokenError') {
     return res.status(401).json({
-      success: false,
+      status: 401,
       message: 'Token inválido',
     });
   }
 
   if (err.name === 'TokenExpiredError') {
     return res.status(401).json({
-      success: false,
+      status: 401,
       message: 'Token expirado',
     });
   }
 
   return res.status(500).json({
-    success: false,
+    status: 500,
     message:
       process.env.NODE_ENV === 'production'
         ? 'Internal server error'

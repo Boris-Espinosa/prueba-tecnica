@@ -1,4 +1,7 @@
+/*----- libraries imports -----*/
 import { Request } from 'express';
+
+/*----- utilities -----*/
 import { createRequestLogger } from '../shared/utils/logger';
 
 declare global {

@@ -1,4 +1,7 @@
+/*----- libraries imports -----*/
 import express from 'express';
+
+/*----- internal imports -----*/
 import { register, login, findById } from '../auth/auth.controller.js';
 import { validate } from '../../shared/middlewares/validate.middleware.js';
 import {

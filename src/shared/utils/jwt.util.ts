@@ -1,5 +1,8 @@
+/*----- libraries imports -----*/
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { promisify } from 'util';
+
+/*----- internal imports -----*/
 import { AppError } from '../../common/AppError.class.js';
 import { JWTPayload } from '../../common/interfaces.js';
 

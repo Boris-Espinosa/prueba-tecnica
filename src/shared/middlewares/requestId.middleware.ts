@@ -1,5 +1,8 @@
+/*----- libraries imports -----*/
 import { Request, Response, NextFunction } from 'express';
 import { randomUUID } from 'crypto';
+
+/*----- utilities -----*/
 import { createRequestLogger } from '../utils/logger.js';
 
 export const requestIdMiddleware = (

@@ -380,8 +380,7 @@ curl -X POST http://localhost:3000/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "usuario@ejemplo.com",
-    "password": "Password123!",
-    "name": "Usuario Ejemplo"
+    "password": "Password123!"
   }'
 ```
 
@@ -405,8 +404,7 @@ Respuesta:
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "user": {
       "id": 1,
-      "email": "usuario@ejemplo.com",
-      "name": "Usuario Ejemplo"
+      "email": "usuario@ejemplo.com"
     }
   }
 }

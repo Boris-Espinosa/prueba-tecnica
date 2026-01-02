@@ -1,5 +1,6 @@
+/*----- libraries imports -----*/
 import { Request, Response, NextFunction } from 'express';
-import { ZodObject, ZodError } from 'zod';
+import { ZodObject } from 'zod';
 
 export const validate =
   (schema: ZodObject) =>
@@ -12,15 +13,6 @@ export const validate =
       });
       return next();
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res.status(400).json({
-          message: 'Validation error',
-          errors: error.issues.map((err) => ({
-            path: err.path.join('.'),
-            message: err.message,
-          })),
-        });
-      }
-      return res.status(500).json({ message: 'Internal server error' });
+      next(error);
     }
   };

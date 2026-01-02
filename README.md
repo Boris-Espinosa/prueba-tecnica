@@ -469,6 +469,8 @@ Prueban flujos completos de la aplicación:
 - Operaciones CRUD de notas
 - Colaboración entre usuarios
 
+**Nota:** Los tests de integración se ejecutan secuencialmente (uno a la vez) para evitar conflictos en la base de datos de pruebas.
+
 ### Ejecutar Tests
 
 ```bash

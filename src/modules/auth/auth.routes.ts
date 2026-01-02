@@ -46,6 +46,9 @@ const router = express.Router();
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 201
  *                 user:
  *                   $ref: '#/components/schemas/User'
  *                 token:
@@ -57,7 +60,22 @@ const router = express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/AppError'
+ *                 - $ref: '#/components/schemas/ValidationError'
+ *             examples:
+ *               emailExists:
+ *                 value:
+ *                   status: 400
+ *                   message: Email already exists
+ *               validationError:
+ *                 value:
+ *                   message: Validation error
+ *                   errors:
+ *                     - path: email
+ *                       message: Invalid email format
+ *                     - path: password
+ *                       message: Password must be at least 6 characters
  */
 router.post('/register', authLimiter, validate(registerSchema), register);
 
@@ -93,6 +111,9 @@ router.post('/register', authLimiter, validate(registerSchema), register);
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
  *                 user:
  *                   $ref: '#/components/schemas/User'
  *                 token:
@@ -104,7 +125,10 @@ router.post('/register', authLimiter, validate(registerSchema), register);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 401
+ *               message: Invalid credentials
  */
 router.post('/login', authLimiter, validate(loginSchema), login);
 
@@ -128,13 +152,22 @@ router.post('/login', authLimiter, validate(loginSchema), login);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               allOf:
+ *                 - type: object
+ *                   properties:
+ *                     status:
+ *                       type: integer
+ *                       example: 200
+ *                 - $ref: '#/components/schemas/User'
  *       404:
  *         description: Usuario no encontrado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 404
+ *               message: User not found
  */
 router.get('/:id', validate(findByIdSchema), findById);
 

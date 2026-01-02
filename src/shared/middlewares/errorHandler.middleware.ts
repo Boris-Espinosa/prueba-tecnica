@@ -32,6 +32,7 @@ export const errorHandler = (
 
   if (err.name === 'ZodError') {
     return res.status(400).json({
+      status: 400,
       message: 'Validation error',
       errors: err.issues.map((e: any) => ({
         path: e.path.join('.'),

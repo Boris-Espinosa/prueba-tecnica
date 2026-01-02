@@ -399,14 +399,13 @@ Respuesta:
 
 ```json
 {
-  "success": true,
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "user": {
-      "id": 1,
-      "email": "usuario@ejemplo.com"
-    }
-  }
+  "status": 200,
+  "user": {
+    "id": 1,
+    "email": "usuario@ejemplo.com",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
@@ -625,13 +624,30 @@ throw new AppError('Nota no encontrada', 404);
 
 Procesa todos los errores y devuelve respuestas consistentes:
 
+**Errores generales (AppError):**
+
 ```json
 {
-  "success": false,
-  "error": {
-    "message": "Mensaje del error",
-    "status": 404
-  }
+  "status": 404,
+  "message": "Note not found"
+}
+```
+
+**Errores de validación:**
+
+```json
+{
+  "message": "Validation error",
+  "errors": [
+    {
+      "path": "email",
+      "message": "Invalid email format"
+    },
+    {
+      "path": "password",
+      "message": "Password must be at least 6 characters"
+    }
+  ]
 }
 ```
 

@@ -29,7 +29,10 @@ export const register = async (
       'User registered successfully'
     );
 
-    return res.status(201).json(response);
+    return res.status(201).json({
+      status: 201,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'register_error', error: err.message },
@@ -61,7 +64,10 @@ export const login = async (
       'User logged in successfully'
     );
 
-    return res.status(200).json(response);
+    return res.status(200).json({
+      status: 200,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'login_error', error: err.message },
@@ -89,7 +95,10 @@ export const findById = async (
       { action: 'Find_user_by_id_success', userId: response.id },
       'User found successfully'
     );
-    return res.status(200).json(response);
+    return res.status(200).json({
+      status: 200,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'Find_user_by_id_error', error: err.message },

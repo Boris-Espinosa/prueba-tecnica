@@ -81,16 +81,47 @@ const swaggerOptions: swaggerJsdoc.Options = {
             },
           },
         },
-        Error: {
+        AppError: {
           type: 'object',
           properties: {
-            success: {
-              type: 'boolean',
-              example: false,
+            status: {
+              type: 'integer',
+              description: 'Código de estado HTTP',
+              example: 400,
             },
             message: {
               type: 'string',
+              description: 'Mensaje de error',
               example: 'Error message',
+            },
+          },
+        },
+        ValidationError: {
+          type: 'object',
+          properties: {
+            message: {
+              type: 'string',
+              description: 'Mensaje general del error de validación',
+              example: 'Validation error',
+            },
+            errors: {
+              type: 'array',
+              description: 'Lista de errores de validación',
+              items: {
+                type: 'object',
+                properties: {
+                  path: {
+                    type: 'string',
+                    description: 'Campo que causó el error',
+                    example: 'email',
+                  },
+                  message: {
+                    type: 'string',
+                    description: 'Descripción del error',
+                    example: 'Invalid email format',
+                  },
+                },
+              },
             },
           },
         },

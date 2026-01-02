@@ -31,7 +31,10 @@ export const createNote = async (
       'Note created successfully'
     );
 
-    return res.status(201).json(response);
+    return res.status(201).json({
+      status: 201,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'create_note_error', error: err.message },
@@ -65,7 +68,10 @@ export const getAllNotes = async (
       'Notes retrieved successfully'
     );
 
-    return res.status(200).json(response);
+    return res.status(200).json({
+      status: 200,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'get_all_notes_error', error: err.message },
@@ -96,7 +102,10 @@ export const getOneNote = async (
       'Note retrieved successfully'
     );
 
-    return res.status(200).json(response);
+    return res.status(200).json({
+      status: 200,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'get_note_error', error: err.message },
@@ -131,7 +140,10 @@ export const updateNote = async (
       'Note updated successfully'
     );
 
-    return res.status(200).json(response);
+    return res.status(200).json({
+      status: 200,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'update_note_error', error: err.message },
@@ -162,7 +174,10 @@ export const deleteNote = async (
       'Note deleted successfully'
     );
 
-    return res.status(200).json(response);
+    return res.status(200).json({
+      status: 200,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'delete_note_error', error: err.message },
@@ -205,7 +220,10 @@ export const shareNote = async (
       'Note shared successfully'
     );
 
-    return res.status(200).json(response);
+    return res.status(200).json({
+      status: 200,
+      ...response,
+    });
   } catch (err: any) {
     requestLogger.error(
       { action: 'share_note_error', error: err.message },

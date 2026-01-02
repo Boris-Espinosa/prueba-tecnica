@@ -41,6 +41,9 @@ router.use(authMiddleware);
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
  *                 own:
  *                   type: array
  *                   items:
@@ -60,7 +63,10 @@ router.use(authMiddleware);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 401
+ *               message: Invalid or missing token
  */
 router.get('/', getAllNotes);
 
@@ -88,6 +94,9 @@ router.get('/', getAllNotes);
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
  *                 note:
  *                   $ref: '#/components/schemas/Note'
  *                 isOwner:
@@ -99,9 +108,19 @@ router.get('/', getAllNotes);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 404
+ *               message: Note not found
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 401
+ *               message: Invalid or missing token
  */
 router.get('/:id', validate(getNoteSchema), getOneNote);
 
@@ -136,11 +155,33 @@ router.get('/:id', validate(getNoteSchema), getOneNote);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Note'
+ *               allOf:
+ *                 - type: object
+ *                   properties:
+ *                     status:
+ *                       type: integer
+ *                       example: 201
+ *                 - $ref: '#/components/schemas/Note'
  *       400:
  *         description: Datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
+ *             example:
+ *               message: Validation error
+ *               errors:
+ *                 - path: title
+ *                   message: Title is required
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 401
+ *               message: Invalid or missing token
  */
 router.post('/', createLimiter, validate(createNoteSchema), createNote);
 
@@ -181,11 +222,31 @@ router.post('/', createLimiter, validate(createNoteSchema), createNote);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Note'
+ *               allOf:
+ *                 - type: object
+ *                   properties:
+ *                     status:
+ *                       type: integer
+ *                       example: 200
+ *                 - $ref: '#/components/schemas/Note'
  *       404:
  *         description: Nota no encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 404
+ *               message: Note not found
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 401
+ *               message: Invalid or missing token
  */
 router.put('/:id', validate(updateNoteSchema), updateNote);
 
@@ -213,15 +274,39 @@ router.put('/:id', validate(updateNoteSchema), updateNote);
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
  *                 message:
  *                   type: string
  *                   example: Nota eliminada
  *       403:
  *         description: Solo el propietario puede eliminar la nota
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 403
+ *               message: Only owner can delete the note
  *       404:
  *         description: Nota no encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 404
+ *               message: Note not found
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 401
+ *               message: Invalid or missing token
  */
 router.delete('/:id', validate(deleteNoteSchema), deleteNote);
 
@@ -263,15 +348,45 @@ router.delete('/:id', validate(deleteNoteSchema), deleteNote);
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
  *                 message:
  *                   type: string
  *                   example: Nota compartida exitosamente
  *       403:
  *         description: Solo el propietario puede compartir la nota
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 403
+ *               message: Only owner can share the note
  *       404:
  *         description: Nota o usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             examples:
+ *               noteNotFound:
+ *                 value:
+ *                   status: 404
+ *                   message: Note not found
+ *               userNotFound:
+ *                 value:
+ *                   status: 404
+ *                   message: User to share with not found
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppError'
+ *             example:
+ *               status: 401
+ *               message: Invalid or missing token
  */
 router.post('/:id/share', validate(shareNoteSchema), shareNote);
 
